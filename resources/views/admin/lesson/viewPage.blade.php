@@ -20,9 +20,11 @@
                 <div class="col-md-8 offset-md-2 p-3 border border-black shadow rounded">
                     <h3>{{$lesson->name}}</h3>
                     <p class="p-3">{{$lesson->description}}</p>
-                    <div class="d-flex justify-content-center">
-                        <iframe width="560" height="315" src="{{$lesson->vd_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    </div>
+                    @if ($lesson->vd_link != null)
+                        <div class="d-flex justify-content-center">
+                            <iframe width="560" height="315" src="{{$lesson->vd_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    @endif
                     <div class="py-3 float-end">
                         <a href="{{route('admin#editLesson',$lesson->id)}}" class="btn btn-secondary"><i class="fa-solid fa-pen-to-square me-2"></i>Edit</a>
                         <a href="{{route('admin#deleteLesson',$lesson->id)}}" class="btn btn-danger"><i class="fa-solid fa-trash me-2"></i>Delete</a>

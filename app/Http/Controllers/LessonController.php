@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\CourseDetail;
 use Illuminate\Http\Request;
 use App\Models\CourseCategory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
@@ -54,12 +56,57 @@ class LessonController extends Controller
         return redirect()->route('admin#viewCourseCategory',$req->course_category_id)->with(['deleteSucc'=>'Lesson Delete Successful']);
     }
 
+
+
+    // user
+
+    public function getHomeBlog_user(){
+        $data=Lesson::where('course_id',1)->paginate(4);
+        return response()->json($data, 200);
+    }
+
+    public function getBlog_user(){
+        $data=Lesson::where('course_id',1)->get();
+        return response()->json($data, 200);
+    }
+
+    public function getBlogDetail_user($id){
+        $blog=Lesson::where('id',$id)->first();
+        $data=[
+            'blog'=>$blog,
+            'user_id'=>Auth::user()->id,
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function viewLesson_user($id){
+        $lesson=Lesson::where('id',$id)->first();
+        $course=CourseDetail::where('course_id',$lesson->course_id)->where('user_id',Auth::user()->id)->first();
+        $lessons=Lesson::where('course_id',$lesson->course_id)->get();
+        $data=[
+            'lesson'=>$lesson,
+            'lessons'=>$lessons,
+            'course'=>$course,
+            'user_id'=>Auth::user()->id,
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function doneLesson_user($id){
+        $done_lesson=CourseDetail::where('id',$id)->first()->done_lesson;
+        CourseDetail::where('id',$id)->update(['done_lesson'=>$done_lesson+1]);
+        $data=[
+            'status'=>'success',
+        ];
+        return response()->json($data, 200);
+    }
+
+
     // private function
     private function check_validation($req){
         Validator::make($req->all(),[
             'name'=>'required',
             'description'=>'required',
-            'vd_link'=>'required',
             'course_id'=>'required',
             'course_category_id'=>'required',
         ])->validate();

@@ -13,11 +13,16 @@ return new class extends Migration
     {
         Schema::create('user_interfaces', function (Blueprint $table) {
             $table->id();
-            $table->string('background_color');
-            $table->string('coverimage_image');
-            $table->string('logo');
-            $table->string('text-color');
-
+            $table->string('title');
+            $table->string('category');
+            $table->string('background_color')->nullable();
+            $table->string('coverimage')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('font_color')->nullable();
+            $table->longText('address')->nullable();
+            $table->longText('map')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }

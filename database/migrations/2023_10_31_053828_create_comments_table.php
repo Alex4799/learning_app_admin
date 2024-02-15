@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('lesson_id');
+            $table->integer('reply_id')->nullable();
             $table->longText('content');
             $table->string('image')->nullable();
             $table->timestamps();

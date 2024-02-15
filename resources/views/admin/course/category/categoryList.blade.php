@@ -38,6 +38,9 @@
         <div class="py-2">
             <h2 class="py-2 text-center">{{$course->name}}</h2>
             <div class="row">
+                @if (count($courseCategory)==0)
+                    <h2 class="text-center py-2 text-primary">There is no category</h2>
+                @endif
                 @foreach ($courseCategory as $item)
                     <div class="col-md-3 p-3">
                         <div class="bag-white shadow rounded p-2 text-center">
@@ -51,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-            @endforeach
+                @endforeach
             </div>
         </div>
     </div>

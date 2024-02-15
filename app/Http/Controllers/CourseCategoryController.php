@@ -73,9 +73,21 @@ class CourseCategoryController extends Controller
         return redirect()->route('admin#courseCategoryList',$CourseCategory->course_id)->with(['DeleteSucc'=>'Course Category delete successful.']);
     }
 
-    public function getCourseCategory_ajax($id){
+
+    // use
+    public function getCourseCategory_user($id){
         $courseCategory=CourseCategory::where('course_id',$id)->get();
         return response()->json($courseCategory, 200);
+    }
+
+    public function viewCourseCategory_user($id){
+        $lesson=Lesson::where('course_category_id',$id)->get();
+        $courseCategory=CourseCategory::where('id',$id)->first();
+        $data = [
+            'lesson'=>$lesson,
+            'courseCategory'=>$courseCategory,
+        ];
+        return response()->json($data, 200);
     }
 
 }

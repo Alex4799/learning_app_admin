@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lessons', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->longText('description');
-            $table->longText('vd_link')->nullable();
-            $table->string('status')->default(0);
-            $table->integer('course_category_id')->nullable();
-            $table->integer('course_id')->nullable();
+            $table->integer('send_id');
+            $table->integer('get_id')->nullable();
+            $table->integer('reply_id')->nullable();
+            $table->longText('message');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lessons');
+        Schema::dropIfExists('messages');
     }
 };

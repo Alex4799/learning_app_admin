@@ -15,8 +15,13 @@ return new class extends Migration
             $table->id();
             $table->integer('course_id');
             $table->integer('user_id');
+            $table->integer('status')->default(0);
+            $table->string('image25')->nullable();
+            $table->string('image50')->nullable();
+            $table->string('image75')->nullable();
+            $table->string('image100')->nullable();
             $table->string('fee_status')->default('pending');//pending/finish/25%/50%/75%/100%
-            $table->integer('done_lesson');
+            $table->integer('done_lesson')->default(0);
             $table->timestamps();
         });
     }

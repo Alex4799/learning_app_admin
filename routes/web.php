@@ -8,8 +8,10 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseDetailController;
+use App\Http\Controllers\UserInterfaceController;
 use App\Http\Controllers\CourseCategoryController;
 
 /*
@@ -27,6 +29,8 @@ use App\Http\Controllers\CourseCategoryController;
 Route::get('/',[AuthController::class,'loginPage']);
 Route::get('/loginPage',[AuthController::class,'loginPage'])->name('loginPage');
 Route::get('/registerPage',[AuthController::class,'registerPage'])->name('registerPage');
+Route::get('get/userInterface',[UserInterfaceController::class,'getUserInterface_admin'])->name('admin#getUserInterface');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -83,7 +87,8 @@ Route::middleware('auth')->group(function () {
             Route::get('view/course/{id}',[CourseDetailController::class,'studentsViewCourse_admin'])->name('admin#studentsViewCourse');
             Route::get('change/status/{id}/{status}',[CourseDetailController::class,'studentsChangeStatus_admin'])->name('admin#changeStatus');
             Route::get('view/profile/{id}',[CourseDetailController::class,'studentsViewProfile_admin'])->name('admin#studentsViewProfile');
-
+            Route::get('view/enroll/{id}',[CourseDetailController::class,'viewEnroll_admin'])->name('admin#viewEnroll');
+            Route::post('delete',[CourseDetailController::class,'deleteStudents'])->name('admin#deleteStudent');
         });
 
         Route::prefix('user')->group(function () {
@@ -95,6 +100,21 @@ Route::middleware('auth')->group(function () {
             Route::get('courseCategory/{id}',[CourseCategoryController::class,'getCourseCategory_ajax']);
             Route::get('course',[CourseController::class,'getCourse_ajax']);
         });
+
+        Route::prefix('message')->group(function () {
+            Route::get('get',[MessageController::class,'getMessage_admin'])->name('admin#getMessage');
+            Route::get('view/{id}',[MessageController::class,'viewMessage_admin'])->name('admin#viewMessage');
+            Route::post('send',[MessageController::class,'sendMessage_admin'])->name('admin#sendMessage');
+            Route::get('check',[MessageController::class,'checkMessage_admin'])->name('admin#checkMessage');
+        });
+
+        Route::get('edit/userInterface',[UserInterfaceController::class,'editUserInterface'])->name('admin#editUserInterface');
+        Route::post('update/userInterface',[UserInterfaceController::class,'updateUserInterface'])->name('admin#updateUserInterface');
+        Route::get('default/userInterface',[UserInterfaceController::class,'defaultUserInterface'])->name('admin#defaultUserInterface');
+
+
+
+
     });
 
 

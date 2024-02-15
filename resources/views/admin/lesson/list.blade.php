@@ -9,7 +9,7 @@
         <h1 class="py-2"><a href="{{route('admin#courseCategoryList',$courseCategory->course_id)}}">Course Category</a> / Lesson List</h1>
         <h1 class="py-3">Lesson List</h1>
         <div class="d-flex justify-content-around py-3">
-            <h2>Total - </h2>
+            <h2>Total - {{count($lesson)}}</h2>
             <a href="{{route('admin#addLessonPage',$courseCategory->id)}}" class="btn btn-primary"><i class="fa-solid fa-plus me-2"></i>Add Lesson</a>
         </div>
 
@@ -32,6 +32,9 @@
             </div>
         @endif
         <div class="p-2 ">
+            @if (count($lesson)==0)
+                <h2 class="text-center py-2 text-primary">There is no lesson</h2>
+            @endif
             @foreach ($lesson as $item)
                 <a href="{{route('admin#viewLesson',$item->id)}}">
                     <div class="bag-white p-3 border border-black rounded shadow">
@@ -44,9 +47,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('script')
-    <script>
-
-    </script>
 @endsection

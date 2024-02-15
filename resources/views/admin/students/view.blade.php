@@ -61,14 +61,14 @@
                         <td class="col">{{$item->done_lesson}}</td>
                         <td class="col">
                             <div class="dropdown">
-                                <button class="text-center btn @if ($item->fee_status=='pending') btn-warning @elseif ($item->fee_status=='100%') btn-success @else btn-secondary @endif dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button class="text-center btn @if ($item->fee_status=='pending') btn-warning @elseif ($item->fee_status=='100') btn-success @else btn-secondary @endif dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     @if ($item->fee_status=='pending')
                                         Pending
-                                    @elseif ($item->fee_status=='25%')
+                                    @elseif ($item->fee_status=='25')
                                         25%
-                                    @elseif ($item->fee_status=='50%')
+                                    @elseif ($item->fee_status=='50')
                                         50%
-                                    @elseif ($item->fee_status=='75%')
+                                    @elseif ($item->fee_status=='75')
                                         75%
                                     @else
                                         Complete
@@ -76,16 +76,17 @@
                                 </button>
                                 <ul class="dropdown-menu text-center">
                                     <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'pending'])}}">Pending</a></li>
-                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'25%'])}}">25%</a></li>
-                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'50%'])}}">50%</a></li>
-                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'75%'])}}">75%</a></li>
-                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'100%'])}}">Complete</a></li>
+                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'25'])}}">25%</a></li>
+                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'50'])}}">50%</a></li>
+                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'75'])}}">75%</a></li>
+                                    <li><a class="dropdown-item" href="{{route('admin#changeStatus',[$item->id,'100'])}}">Complete</a></li>
                                 </ul>
                             </div>
                         </td>
                         <td class="col">
                             <div class="">
                                 <a href="{{route('admin#studentsViewProfile',$item->user_id)}}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></a>
+                                <a href="{{route('admin#viewEnroll',$item->id)}}" class="btn @if ($item->status==0) btn-primary @else btn-secondary @endif"><i class="fa-solid fa-clipboard-list"></i></a>
                             </div>
                         </td>
                       </tr>

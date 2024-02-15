@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{{asset('image/code-solid.svg')}}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <title>@yield('title')</title>
@@ -14,7 +15,7 @@
     <div class="nav py-3 px-3 shadow sticky-top zindex">
         <div class="d-flex justify-content-between w-100">
             <div>
-                <p class="fs-4"><i class="fa-solid fa-code pe-2 text-primary"></i>Angle</p>
+                <p class="fs-4"><i class="fa-solid fa-code pe-2 text-primary"></i><span id="title">Angle</span></p>
             </div>
             <div class="d-none d-lg-block menu-bar">
                 <ul class=" d-flex justify-content-around gap-4">
@@ -23,7 +24,11 @@
                     <li class=""><a class="fs-5 " href="{{route('admin#studentsList')}}"><i class="fa-solid fa-users pe-2"></i>Students List</a></li>
                     <li class=""><a class="fs-5 " href="{{route('admin#userList')}}"><i class="fa-solid fa-users pe-2"></i>User List</a></li>
                     <li class=""><a class="fs-5 " href="{{route('admin#list')}}"><i class="fa-solid fa-users pe-2"></i>Admin List</a></li>
+                    <li class=""><a class="fs-5 " href="{{route('admin#getMessage')}}"><i class="fa-solid fa-list pe-2"></i>Message</a></li>
+                    <a href="{{route('admin#getMessage')}}" class="message"></a>
+                    <a href="{{route('admin#studentsList')}}" class="enrollStatus"></a>
                 </ul>
+
             </div>
             <div class="d-flex gap-2">
                 <div>
@@ -58,14 +63,17 @@
     </div>
     <div class="content row container-fluid">
         <div>
-            <div class="slide-bar shadow p-3 bag-white position-fixed right-0 z-100" id="slide-bar">
+            <div class="slide-bar shadow p-3 bag-white position-fixed right-0 zindex" id="slide-bar">
                 <div class="w-100">
                     <ul class="w-100">
                         <li class="my-4"><a class="fs-5 my-4 active" href="{{route('admin#dashboardPage')}}"><i class="fa-solid fa-chart-simple pe-2"></i>Dashboard</a></li>
                         <li class="my-4"><a class="fs-5 my-4" href="{{route('admin#courseList')}}"><i class="fa-solid fa-list pe-2"></i>Course</a></li>
                         <li class="my-4"><a class="fs-5 my-4" href="{{route('admin#studentsList')}}"><i class="fa-solid fa-users pe-2"></i>Students List</a></li>
                         <li class="my-4"><a class="fs-5 my-4" href="{{route('admin#userList')}}"><i class="fa-solid fa-users pe-2"></i>User List</a></li>
-                        <li class="my-4"><a class="fs-5 my-4" href=""><i class="fa-solid fa-users pe-2"></i>Admin List</a></li>
+                        <li class="my-4"><a class="fs-5 my-4" href="{{route('admin#list')}}"><i class="fa-solid fa-users pe-2"></i>Admin List</a></li>
+                        <li class=""><a class="fs-5 " href="{{route('admin#getMessage')}}"><i class="fa-solid fa-list pe-2"></i>Message</a></li>
+                        <li><a href="{{route('admin#getMessage')}}" class="message"></a></li>
+                        <li><a href="{{route('admin#studentsList')}}" class="enrollStatus"></a></li>
                     </ul>
                 </div>
                 <div class="close-btn" id="close-btn">
@@ -123,7 +131,6 @@
             }
 
             let changemood=function (){
-                console.log(body);
                 if (status=='light') {
                     body[0].classList.add('dark-mode-variables');
                     status='dark';
@@ -132,9 +139,42 @@
                     status='light'
                 }
                 sessionStorage.setItem("status", status);
-                console.log('hr');
             }
 
+    </script>
+    <script>
+            $(document).ready(function(){
+                $.ajax({
+                    type:'get',
+                    url:"{{route('admin#getUserInterface')}}",
+                    dataType:'json',
+                    success:function(data){
+                        $('#title').html(data.layout.title);
+                        if(data.messageCount!=0){
+                            $('.message').html(`
+                                <button type="button" class="btn btn-secondary position-relative">
+                                    <i class="fa-solid fa-bell"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        ${data.messageCount}
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                                </button>
+                            `)
+                        }
+                        if (data.enrollStatus!=0) {
+                            $('.enrollStatus').html(`
+                                <button type="button" class="btn btn-secondary position-relative">
+                                    <i class="fa-solid fa-list"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                        ${data.enrollStatus}
+                                        <span class="visually-hidden">unresponse enroll</span>
+                                    </span>
+                                </button>
+                            `)
+                        }
+                    }
+                })
+            })
     </script>
     @yield('script')
 </body>

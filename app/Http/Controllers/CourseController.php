@@ -82,13 +82,31 @@ class CourseController extends Controller
 
     // user
 
-    public function getCourse_user(){
-        $courses=Course::when(request('search_key'),function($item){
-            $item->where('name','like','%'.request('search_key').'%');
-        })
-        ->get();
+    public function getHomeCourse_user(){
+        $courses=Course::paginate(4);
         return response()->json($courses, 200);
     }
+
+    public function getCourse_user(){
+        $courses=Course::get();
+        return response()->json($courses, 200);
+    }
+
+    public function getCourseDetail_user($id){
+        $courseCategory=CourseCategory::where('course_id',$id)->get();
+        $course=Course::where('id',$id)->first();
+        $data=[
+            'course'=>$course,
+            'courseCategory'=>$courseCategory,
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function getUserCourse_user($id){
+        $data=Course::where('id',$id)->first();
+        return response()->json($data, 200);
+    }
+
 
     // private function
     private function course_validation_check($req){

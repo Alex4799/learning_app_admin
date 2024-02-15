@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->string('role')->default('user');//admin//user(students)
+            $table->string('position')->nullable();
             $table->string('gender')->nullable();
             $table->string('status')->default('none');//students//none
             $table->timestamp('email_verified_at')->nullable();

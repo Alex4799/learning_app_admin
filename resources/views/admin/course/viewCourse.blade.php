@@ -30,7 +30,6 @@
                                         <a href="{{route('admin#viewCourseCategory',$item->id)}}" class="w-100">
                                             <div class="py-2 bg-secondary rounded shadow d-flex justify-content-around">
                                                 <h6>{{$item->name}}</h6>
-                                                <input type="checkbox" class="rounded" name="" id="">
                                             </div>
                                         </a>
                                     </div>

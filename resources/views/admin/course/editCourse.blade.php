@@ -15,7 +15,11 @@
                 <div class="row">
                     <div class="col-md-4 py-2">
                         <div class="py-2">
-                            <img src="{{asset('storage/courseImage/'.$course->image)}}" class="w-100 img-thumbnail" alt="course image">
+                            @if ($course->image!=null)
+                                <img src="{{asset('storage/courseImage/'.$course->image)}}" class="w-100 img-thumbnail" alt="course image">
+                            @else
+                                <img src="{{asset('image/default.jpg')}}" class="w-100 img-thumbnail" alt="course image">
+                            @endif
                         </div>
                         <input type="file" name="image" class="form-control @error('name') is-invalid @enderror">
                         @error('image')
@@ -46,7 +50,7 @@
                         </div>
                         <input type="hidden" name="id" id="" value="{{$course->id}}">
                         <div class="py-2 d-flex justify-content-end">
-                            <input type="submit" value="Create" class="btn btn-primary">
+                            <input type="submit" value="Update" class="btn btn-primary">
                         </div>
                     </div>
                 </div>

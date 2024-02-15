@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('lesson_count')->default(0);
             $table->integer('course_category_count')->default(0);
-            $table->integer('course_fee');
+            $table->integer('course_fee')->default(0);
             $table->longText('description');
             $table->timestamps();
         });
