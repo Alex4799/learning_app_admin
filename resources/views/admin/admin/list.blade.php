@@ -7,8 +7,9 @@
 @section('content')
     <div>
         <h1 class="py-3">Admin List</h1>
-        <h3 class="text-center py-3">Course Name</h3>
-
+        <div class="d-flex justify-content-end">
+            <a href="{{route('admin#addAdminPage')}}" class="btn btn-primary">Add Admin</a>
+        </div>
         <div class="d-block d-lg-flex justify-content-around">
             <div class="py-2">
                 <h4>Search Key - {{request('search_key')}}</h4>
@@ -32,6 +33,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
+        @if (session('createSucc'))
+            <div class="alert alert-success alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('createSucc')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('passwordNSame'))
+            <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('passwordNSame')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="m-3 row">
             <table class="table table-dark table-striped text-center">
                 <thead>
@@ -58,12 +74,30 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="col"><a href="{{route('admin#view',$item->id)}}">{{$item->name}}</a></td>
+                        <td class="col"><a class="text-white" href="{{route('admin#view',$item->id)}}">{{$item->name}}</a></td>
                         <td class="col">{{$item->email}}</td>
                         <td class="col">
-                            <button class="btn btn-secondary" type="button">
-                                {{$item->role}}
-                            </button>
+                            @if (Auth::user()->position=='CEO')
+                                @if ($item->id!=Auth::user()->id)
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            {{$item->role}}
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{route('admin#changeRole',[$item->id,'admin'])}}">admin</a></li>
+                                        <li><a class="dropdown-item" href="{{route('admin#changeRole',[$item->id,'user'])}}">user</a></li>
+                                        </ul>
+                                    </div>
+                                @else
+                                    <button class="btn btn-secondary" type="button">
+                                        {{$item->role}}
+                                    </button>
+                                @endif
+                            @else
+                                <button class="btn btn-secondary" type="button">
+                                    {{$item->role}}
+                                </button>
+                            @endif
                         </td>
                       </tr>
                   @endforeach

@@ -41,6 +41,7 @@
                     <h4 class="py-2"><i class="fa-solid fa-envelope me-2"></i>Email - {{Auth::user()->email}}</h4>
                     <h4 class="py-2"><i class="fa-solid fa-phone me-2"></i>Phone - {{Auth::user()->phone}}</h4>
                     <h4 class="py-2"><i class="fa-solid fa-venus-mars me-2"></i>Gender - {{Auth::user()->gender}}</h4>
+                    <h4 class="py-2"><i class="fa-solid fa-hammer me-2"></i>Position - {{Auth::user()->position}}</h4>
                     <div class="">
                         <a href="{{route('admin#editProfile')}}" class="btn btn-primary my-2"><i class="fa-solid fa-pen-to-square me-2"></i>Edit Profile</a>
                         <a href="{{route('admin#deleteProfilePhoto')}}" class="btn btn-danger my-2"><i class="fa-solid fa-trash me-2"></i>Delete Profile Photo</a>

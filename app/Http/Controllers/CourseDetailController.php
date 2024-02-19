@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class CourseDetailController extends Controller
 {
@@ -80,13 +81,25 @@ class CourseDetailController extends Controller
 
     public function deleteStudents(Request $req){
         if (Hash::check($req->password, Auth::user()->password)) {
-            Comment::where('user_id',$req->user_id)->delete();
-            CourseDetail::where('user_id',$req->user_id)->delete();
-            Message::orWhere('send_id',$req->user_id)->orWhere('get_id',$req->user_id)->delete();
-            User::where('id',$req->user_id)->delete();
-            return redirect()->route('admin#studentsList');
+            $courseDetail=CourseDetail::where('id',$req->id)->get();
+            foreach ($courseDetail as $item) {
+                if($item->image25!=null){
+                    Storage::delete('public/transationImage/'.$item->image25);
+                }
+                if($item->image50!=null){
+                    Storage::delete('public/transationImage/'.$item->image50);
+                }
+                if($item->image75!=null){
+                    Storage::delete('public/transationImage/'.$item->image75);
+                }
+                if($item->image100!=null){
+                    Storage::delete('public/transationImage/'.$item->image100);
+                }
+            }
+            CourseDetail::where('id',$req->id)->delete();
+            return redirect()->route('admin#studentsViewCourse',$req->course_id)->with(['deleteSucc'=>'Student account create successful.']);
         }else{
-            return back()->with(['WrongPassword'=>'Your password is not same. Please try again.']);
+            return back()->with(['WrongPassword'=>'Your password is wrong. Please try again.']);
         }
     }
 

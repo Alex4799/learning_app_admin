@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    Admin Profile
 @endsection
 
 @section('content')
@@ -40,6 +40,7 @@
                     <h4 class="py-2"><i class="fa-solid fa-file-signature me-2"></i>Name - {{$user->name}}</h4>
                     <h4 class="py-2"><i class="fa-solid fa-envelope me-2"></i>Email - {{$user->email}}</h4>
                     <h4 class="py-2"><i class="fa-solid fa-phone me-2"></i>Phone - {{$user->phone}}</h4>
+                    <h4 class="py-2"><i class="fa-solid fa-hammer me-2"></i>Position - {{$user->position}}</h4>
                     <h4 class="py-2"><i class="fa-solid fa-venus-mars me-2"></i>Gender - {{$user->gender}}</h4>
                 </div>
             </div>

@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="{{asset('image/code-solid.svg')}}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <title>@yield('title')</title>
+    <title>Algle | @yield('title')</title>
     <script src="https://kit.fontawesome.com/10de2103ef.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
     @yield('style')
@@ -17,7 +17,7 @@
             <div>
                 <p class="fs-4"><i class="fa-solid fa-code pe-2 text-primary"></i><span id="title">Angle</span></p>
             </div>
-            <div class="d-none d-lg-block menu-bar">
+            <div class="d-none d-lg-flex menu-bar">
                 <ul class=" d-flex justify-content-around gap-4">
                     <li class=""><a class="fs-5  active" href="{{route('admin#dashboardPage')}}"><i class="fa-solid fa-chart-simple pe-2"></i>Dashboard</a></li>
                     <li class=""><a class="fs-5 " href="{{route('admin#courseList')}}"><i class="fa-solid fa-list pe-2"></i>Course</a></li>
@@ -28,9 +28,6 @@
                     <a href="{{route('admin#getMessage')}}" class="message"></a>
                     <a href="{{route('admin#studentsList')}}" class="enrollStatus"></a>
                 </ul>
-
-            </div>
-            <div class="d-flex gap-2">
                 <div>
                     <div class="checkbox">
                         <label>
@@ -39,6 +36,8 @@
                         </label>
                       </div>
                 </div>
+            </div>
+            <div class="d-flex gap-2">
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                       {{Auth::user()->name}}
@@ -75,6 +74,14 @@
                         <li><a href="{{route('admin#getMessage')}}" class="message"></a></li>
                         <li><a href="{{route('admin#studentsList')}}" class="enrollStatus"></a></li>
                     </ul>
+                    <div class="d-flex justify-content-center">
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" data-toggle="toggle" id="darkmood" onchange="changemood()">
+                              <i class="fa-solid fa-moon"></i>
+                            </label>
+                          </div>
+                    </div>
                 </div>
                 <div class="close-btn" id="close-btn">
                     <i class="fa-solid fa-xmark fs-5"></i>

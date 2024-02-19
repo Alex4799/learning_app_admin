@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    User Profile
 @endsection
 
 @section('content')
@@ -19,6 +19,13 @@
         @if (session('deleteSucc'))
             <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
                 {{session('deleteSucc')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('WrongPassword'))
+            <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('WrongPassword')}}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
@@ -58,7 +65,7 @@
                         </div>
                     </div>
                     <div>
-                        <a href="" class="btn btn-danger"><i class="fa-solid fa-trash me-1"></i>Delete</a>
+                        <a href="{{route('admin#userDelete',$user->id)}}" class="btn btn-danger"><i class="fa-solid fa-trash me-1"></i>Delete</a>
                     </div>
                 </div>
             </div>

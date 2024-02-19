@@ -64,6 +64,7 @@ class UserController extends Controller
 
     public function getMember(){
         $data=User::where('role','admin')->get();
+        logger($data);
         return response()->json($data, 200);
     }
 }

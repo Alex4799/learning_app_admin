@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    Edit Profile
 @endsection
 
 @section('content')
@@ -51,6 +51,14 @@
                             <label class="py-2" for=""><i class="fa-solid fa-phone me-2"></i>Phone</label>
                             <input type="text" name="phone" class="form-control py-2" value="{{Auth::user()->phone}}">
                             @error('phone')
+                                <small class="text-danger">{{$message}}</small>
+                            @enderror
+                        </div>
+
+                        <div class="py-2">
+                            <label class="py-2" for=""><i class="fa-solid fa-hammer me-2"></i>Position</label>
+                            <input type="text" name="position" class="form-control py-2" value="{{Auth::user()->position}}">
+                            @error('position')
                                 <small class="text-danger">{{$message}}</small>
                             @enderror
                         </div>

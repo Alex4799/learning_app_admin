@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Message List
+    View Message
 @endsection
 
 @section('content')
@@ -10,17 +10,15 @@
             <h3 class="py-3"><a href="{{route('admin#getMessage')}}">Message List / </a>View Message</h3>
             <div class="row container-fluid">
                 <div class="col-md-8 offset-md-2 border border-primary rounded p-3">
-                    <div class="row container-fluid">
-                        <p class="col-2">name - </p>
-                        <p class="col">{{$message->user_name}}</p>
+                    <div class="">
+                        <p class="">name - {{$message->user_name}}</p>
                     </div>
-                    <div class="row container-fluid">
-                        <p class="col-2">email - </p>
-                        <p class="col">{{$message->user_email}}</p>
+                    <div class="">
+                        <p class="">email - {{$message->user_email}}</p>
                     </div>
-                    <div class="row container-fluid">
-                        <p class="col-2">Message - </p>
-                        <p class="col">{{$message->message}}</p>
+                    <div class="">
+                        <h6>Message</h6>
+                        <p class="">{{$message->message}}</p>
                     </div>
                     <div class=" d-flex justify-content-end">
                         <button class="btn btn-primary" id="reply">Reply</button>
@@ -47,17 +45,15 @@
                 @foreach ($replyMessage as $item)
                     <div class="row container-fluid">
                         <div class="col-md-8 offset-md-2 border border-primary rounded p-3">
-                            <div class="row container-fluid">
-                                <p class="col-2">name - </p>
-                                <p class="col">{{$item->user_name}}</p>
+                            <div class="">
+                                <p class="">name - {{$item->user_name}}</p>
                             </div>
-                            <div class="row container-fluid">
-                                <p class="col-2">email - </p>
-                                <p class="col">{{$item->user_email}}</p>
+                            <div class="">
+                                <p class="">email - {{$item->user_email}}</p>
                             </div>
-                            <div class="row container-fluid">
-                                <p class="col-2">Message - </p>
-                                <p class="col">{{$item->message}}</p>
+                            <div class="">
+                                <h6>Message</h6>
+                                <p class="">{{$item->message}}</p>
                             </div>
                         </div>
                     </div>

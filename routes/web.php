@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseDetailController;
@@ -26,11 +27,14 @@ use App\Http\Controllers\CourseCategoryController;
 */
 
 
-Route::get('/',[AuthController::class,'loginPage']);
-Route::get('/loginPage',[AuthController::class,'loginPage'])->name('loginPage');
-Route::get('/registerPage',[AuthController::class,'registerPage'])->name('registerPage');
+
 Route::get('get/userInterface',[UserInterfaceController::class,'getUserInterface_admin'])->name('admin#getUserInterface');
 
+Route::middleware(['authMiddleware'])->group(function () {
+    Route::redirect('/', 'loginPage');
+    Route::get('/loginPage',[AuthController::class,'loginPage'])->name('loginPage');
+    Route::get('/registerPage',[AuthController::class,'registerPage'])->name('registerPage');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -42,16 +46,21 @@ Route::middleware('auth')->group(function () {
     Route::get('change/passwordPage',[AuthController::class,'changePasswordPage'])->name('changePasswordPage');
 
 
-    Route::prefix('admin')->group(function () {
+    Route::prefix('admin')->middleware(['adminMiddleware'])->group(function () {
 
         Route::get('list',[AdminController::class,'adminList'])->name('admin#list');
         Route::get('admin/view/{id}',[AdminController::class,'adminView'])->name('admin#view');
+        Route::get('admin/change/role/{id}/{status}',[AdminController::class,'changeRole'])->name('admin#changeRole');
 
         Route::get('dashboardPage',[AdminController::class,'dashboardPage'])->name('admin#dashboardPage');
         Route::get('profile',[AdminController::class,'profile'])->name('admin#profile');
         Route::get('edit/profile',[AdminController::class,'editProfile'])->name('admin#editProfile');
         Route::post('update/profile',[AdminController::class,'updateProfile'])->name('admin#updateProfile');
         Route::get('delete/profile/photo',[AdminController::class,'deleteProfilePhoto'])->name('admin#deleteProfilePhoto');
+
+        Route::get('add/admin/page',[AdminController::class,'addAdminPage'])->name('admin#addAdminPage');
+        Route::post('add/admin',[AdminController::class,'addAdmin'])->name('admin#addAdmin');
+
 
         Route::prefix('course')->group(function () {
             Route::get('list',[CourseController::class,'list_admin'])->name('admin#courseList');
@@ -80,6 +89,10 @@ Route::middleware('auth')->group(function () {
             Route::get('edit/{id}',[LessonController::class,'edit_admin'])->name('admin#editLesson');
             Route::post('update',[LessonController::class,'update_admin'])->name('admin#updateLesson');
             Route::get('delete/{id}',[LessonController::class,'delete_admin'])->name('admin#deleteLesson');
+            Route::post('send/comment',[CommentController::class,'sendComment_admin'])->name('admin#sendComment');
+            Route::get('delete/comment/{id}/{lesson_id}',[CommentController::class,'delete_admin'])->name('admin#deleteComment');
+
+
         });
 
         Route::prefix('students')->group(function () {
@@ -94,10 +107,11 @@ Route::middleware('auth')->group(function () {
         Route::prefix('user')->group(function () {
             Route::get('list',[AdminController::class,'user_list'])->name('admin#userList');
             Route::get('view/{id}',[AdminController::class,'user_view'])->name('admin#userView');
+            Route::get('delete/{id}',[AdminController::class,'user_delete'])->name('admin#userDelete');
         });
 
         Route::prefix('ajax')->group(function () {
-            Route::get('courseCategory/{id}',[CourseCategoryController::class,'getCourseCategory_ajax']);
+            Route::get('courseCategory/{id}',[CourseCategoryController::class,'getCourseCategory_user']);
             Route::get('course',[CourseController::class,'getCourse_ajax']);
         });
 

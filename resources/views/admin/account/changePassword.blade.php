@@ -1,13 +1,13 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    Change Password
 @endsection
 
 @section('content')
-<div class="container">
+<div class="">
     <h1 class="py-3"><a href="{{route('admin#profile')}}">Profile</a> / Change Password</h1>
-    <div class="row container-fluid">
+    <div class="row">
         <div class="col-md-8 offset-md-2 py-5 px-5 shadow rounded">
             <div class="py-2">
                 <label for="">Current Password</label>

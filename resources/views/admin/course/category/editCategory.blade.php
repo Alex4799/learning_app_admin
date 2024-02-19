@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Add Course Category
+    Edit Course Category
 @endsection
 
 @section('content')

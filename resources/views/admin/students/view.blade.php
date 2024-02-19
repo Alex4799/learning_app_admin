@@ -8,9 +8,7 @@
     <div>
         <h1 class="py-3"><a href="{{route('admin#studentsList')}}">Students List</a> / {{$course->name}}</h1>
         <h3 class="text-center py-3">{{$course->name}}</h3>
-        <div class="d-flex justify-content-end py-3">
-            <a href="{{route('admin#addCoursePage')}}" class="btn btn-primary"><i class="fa-solid fa-plus me-2"></i>Add Students</a>
-        </div>
+
         <div class="d-block d-lg-flex justify-content-around">
             <div class="py-2">
                 <h4>Search Key - {{request('search_key')}}</h4>
@@ -34,7 +32,22 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
-        <div class="m-3 row">
+
+        @if (session('deleteSucc'))
+            <div class="alert alert-success alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('deleteSucc')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if (session('WrongPassword'))
+            <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('WrongPassword')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="m-3 row" id="list">
             <table class="table table-dark table-striped text-center">
                 <thead>
                   <tr class="row">
@@ -47,7 +60,7 @@
                 </thead>
                 <tbody class="">
                   @foreach ($students as $item)
-                      <tr class="row">
+                      <tr class="row tr">
                         <td class="col-1">
                             <div>
                                 @if ($item->user_image==null)
@@ -84,15 +97,45 @@
                             </div>
                         </td>
                         <td class="col">
-                            <div class="">
+                            <input type="hidden" value="{{$item->id}}" id="item_id">
+                            <div class=" d-flex gap-1">
                                 <a href="{{route('admin#studentsViewProfile',$item->user_id)}}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></a>
                                 <a href="{{route('admin#viewEnroll',$item->id)}}" class="btn @if ($item->status==0) btn-primary @else btn-secondary @endif"><i class="fa-solid fa-clipboard-list"></i></a>
+                                <button class="btn btn-danger show"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </td>
-                      </tr>
+
+                        <div class=" p-3 shadow rounded d-none alert {{'alert'.$item->id}}">
+                            <div class=" position-relative ">
+                                <form action="{{route('admin#deleteStudent')}}" method="POST">
+                                    @csrf
+
+                                    <h3 class="py-3">Are you sure to delete {{$item->user_name}} from {{$course->name}} ?</h3>
+                                    <h3 class="py-3">Enter Your Password</h3>
+                                    <input type="hidden" name="id" value="{{$item->id}}">
+                                    <input type="hidden" name="course_id" value="{{$course->id}}">
+
+                                    <div class=" py-3">
+                                        <input type="password" name="password" class="form-control">
+                                    </div>
+
+                                    <div class=" py-3 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+
+                                </form>
+                                <div class=" position-absolute top-0 end-0 close">
+                                    <i class="fa-solid fa-xmark fs-5"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </tr>
+
                   @endforeach
                 </tbody>
               </table>
+
             <div class="my-3">
                 {{$students->appends(request()->query())->links()}}
             </div>
@@ -100,7 +143,18 @@
     </div>
 @endsection
 @section('script')
-    <script>
+<script>
+    $(document).ready(function(){
 
-    </script>
+        $('.show').click(function(){
+            $item_id=$(this).parents('tr').find('#item_id').val();
+            $('.alert'+$item_id).removeClass('d-none');
+        });
+
+        $('.close').click(function(){
+            $('.alert').addClass('d-none');
+        });
+
+    })
+</script>
 @endsection

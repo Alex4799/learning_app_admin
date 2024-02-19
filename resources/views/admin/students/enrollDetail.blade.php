@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    Enroll Detail
 @endsection
 
 @section('content')

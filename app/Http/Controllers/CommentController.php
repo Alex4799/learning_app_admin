@@ -6,9 +6,50 @@ use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
+
+    public function sendComment_admin(Request $req){
+        Validator::make($req->all(),[
+            'lesson_id'=>'required',
+            'content'=>'required',
+        ])->validate();
+        $userData=[
+            'user_id'=>Auth::user()->id,
+            'lesson_id'=>$req->lesson_id,
+            'content'=>$req->content,
+            'reply_id'=>$req->reply_id,
+        ];
+        if ($req->hasFile('image')) {
+            $imageName=uniqid().$req->file('image')->getClientOriginalName();
+            $req->file('image')->storeAs('public/commentImage/',$imageName);
+            $userData['image']=$imageName;
+        }
+        Comment::create($userData);
+
+        return redirect()->route('admin#viewLesson',$req->lesson_id)->with(['updateSucc'=>'Comment send successful.']);
+    }
+
+    public function delete_admin($id,$lesson_id){
+        $comment=Comment::where('id',$id)->first();
+        if ($comment->image!=null) {
+            Storage::delete('public/commentImage/'.$comment->image);
+        }
+        Comment::where('id',$id)->delete();
+        $reply=Comment::where('reply_id',$id)->get();
+        for ($i=0; $i < count($reply); $i++) {
+            if ($reply[$i]->image!=null) {
+                Storage::delete('public/commentImage/'.$reply[$i]->image);
+            }
+        }
+        Comment::where('reply_id',$id)->delete();
+        return redirect()->route('admin#viewLesson',$lesson_id)->with(['updateSucc'=>'Comment delete successful.']);;
+
+    }
+
+
     // user
     public function getComment_user($id){
         $data=Comment::select('comments.*','users.name as user_name')

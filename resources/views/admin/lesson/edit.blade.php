@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Add Lesson
+    Edit Lesson
 @endsection
 
 @section('style')
@@ -68,7 +68,7 @@
 
                         <input type="hidden" name="id" value="{{$lesson->id}}">
 
-                        <div class="py-2 d-flex justify-content-around">
+                        <div class="py-2 d-flex justify-content-around flex-wrap gap-2">
                             <button class="btn btn-secondary" type="button" id="changeCourse">Change Course</button>
                             <button class="btn btn-secondary" type="button" id="closeChange">Close Change</button>
                             <input type="submit" value="Update" class="btn btn-primary">

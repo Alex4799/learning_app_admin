@@ -7,7 +7,12 @@
 @section('content')
     <div>
         <h1 class="py-2"><a href="{{route('admin#courseList')}}">Course</a> / View Course</h1>
-
+        @if (session('deleteFail'))
+            <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
+                {{session('deleteFail')}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="row">
             <div class="col-md-8 offset-md-2 border border-black rounded p-3">
                 <div class="row">
@@ -20,9 +25,11 @@
                     </div>
                     <div class="col-md-8 py-2">
                             <h3 class="py-2">{{$course->name}}</h3>
-                            <a href="{{route('admin#courseCategoryList',$course->id)}}" class="py-2 btn btn-secondary">{{$course->course_category_count}} Course Category</a>
-                            <a href="#" class="py-2 btn btn-secondary">{{$course->lesson_count}} Lesson Count</a>
-                            <a href="#" class="py-2 btn btn-secondary">{{$course->course_fee}} MMK</a>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <a href="{{route('admin#courseCategoryList',$course->id)}}" class="my-2 btn btn-secondary">{{$course->course_category_count}} Course Category</a>
+                                <a href="#" class="my-2 btn btn-secondary">{{$course->lesson_count}} Lesson Count</a>
+                                <a href="#" class="my-2 btn btn-secondary">{{$course->course_fee}} MMK</a>
+                            </div>
                             <p class="p-3 text-justify">{{$course->description}}</p>
                             <div class="py-2">
                                 @foreach ($courseCategory as $item)

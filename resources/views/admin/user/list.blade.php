@@ -75,7 +75,7 @@
                                 @endif
                             </div>
                         </td>
-                        <td class="col"><a href="{{route('admin#userView',$item->id)}}">{{$item->name}}</a></td>
+                        <td class="col"><a href="{{route('admin#userView',$item->id)}}" class="text-white">{{$item->name}}</a></td>
                         <td class="col">{{$item->email}}</td>
                         <td class="col">{{$item->status}}</td>
                         <td class="col">
@@ -84,8 +84,8 @@
                                     {{$item->role}}
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li><a class="dropdown-item" href="#">admin</a></li>
-                                  <li><a class="dropdown-item" href="#">user</a></li>
+                                  <li><a class="dropdown-item" href="{{route('admin#changeRole',[$item->id,'admin'])}}">admin</a></li>
+                                  <li><a class="dropdown-item" href="{{route('admin#changeRole',[$item->id,'user'])}}">user</a></li>
                                 </ul>
                             </div>
                         </td>

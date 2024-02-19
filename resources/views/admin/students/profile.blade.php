@@ -1,12 +1,12 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Profile
+    Student Profile
 @endsection
 
 @section('content')
 <div class="container">
-    <h1 class="py-3">Profile</h1>
+    <h1 class="py-3"><a href="{{route('admin#studentsList')}}">Students List</a> / Profile</h1>
     <div class="">
 
         @if (session('updateSucc'))
@@ -23,14 +23,7 @@
             </div>
         @endif
 
-        @if (session('WrongPassword'))
-            <div class="alert alert-danger alert-dismissible fade show col-md-4 offset-md-8" role="alert">
-                {{session('WrongPassword')}}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        <div class=" shadow rounded py-4" id="list">
+        <div class=" shadow rounded py-4">
             <div class="row container-fluid">
                 <div class="col-md-3 offset-md-1 py-4" >
                     @if ($user->image==null)
@@ -63,50 +56,10 @@
                             @endforeach
                         </div>
                     </div>
-                    <div>
-                        <button class="btn btn-danger" id="show"><i class="fa-solid fa-trash me-1"></i>Delete</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class=" p-3 shadow rounded d-none" id="alert">
-            <div class=" position-relative ">
-                <form action="{{route('admin#deleteStudent')}}" method="POST">
-                    @csrf
-                    <h3 class="py-3">Are you sure to delete {{$user->name}}</h3>
-                    <h3 class="py-3">Enter Your Password</h3>
-                    <input type="hidden" name="user_id" value="{{$user->id}}">
-                    <div class=" py-3">
-                        <input type="password" name="password" class="form-control">
-                    </div>
-                    <div class=" py-3 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
-                <div class=" position-absolute top-0 end-0" id="close">
-                    <i class="fa-solid fa-xmark fs-5"></i>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
-@endsection
-@section('script')
-    <script>
-        $(document).ready(function(){
-
-            $('#show').click(function(){
-                $('#list').toggleClass('d-none');
-                $('#alert').toggleClass('d-none');
-            });
-
-            $('#close').click(function(){
-                $('#list').toggleClass('d-none');
-                $('#alert').toggleClass('d-none');
-            });
-
-        })
-    </script>
 @endsection

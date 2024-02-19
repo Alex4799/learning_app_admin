@@ -1,7 +1,7 @@
 @extends('admin.layout.index')
 
 @section('title')
-    Admin Dashboard
+    Edit Course
 @endsection
 
 @section('content')

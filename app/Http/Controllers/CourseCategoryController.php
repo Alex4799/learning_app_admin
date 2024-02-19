@@ -74,6 +74,7 @@ class CourseCategoryController extends Controller
     }
 
 
+
     // use
     public function getCourseCategory_user($id){
         $courseCategory=CourseCategory::where('course_id',$id)->get();

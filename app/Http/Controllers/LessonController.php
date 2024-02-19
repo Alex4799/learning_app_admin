@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Comment;
 use App\Models\CourseDetail;
 use Illuminate\Http\Request;
 use App\Models\CourseCategory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class LessonController extends Controller
@@ -29,7 +31,11 @@ class LessonController extends Controller
 
     public function view_admin($id){
         $lesson=Lesson::where('id',$id)->first();
-        return view('admin.lesson.viewPage',compact('lesson'));
+        $comment=Comment::select('comments.*','users.name as user_name')
+        ->leftJoin('users','comments.user_id','users.id')
+        ->where('comments.lesson_id',$id)
+        ->get();
+        return view('admin.lesson.viewPage',compact('lesson','comment'));
     }
 
     public function edit_admin($id){
@@ -51,7 +57,16 @@ class LessonController extends Controller
 
     public function delete_admin($id){
         $req=Lesson::where('id',$id)->first();
+
+        $comment=Comment::where('lesson_id',$id)->get();
+        foreach ($comment as $item) {
+            if ($item->image!=null) {
+                Storage::delete('public/commentImage/'.$item->image);
+            }
+        }
+        Comment::where('lesson_id',$id)->delete();
         Lesson::where('id',$id)->delete();
+
         $this->changeLessonCount($req);
         return redirect()->route('admin#viewCourseCategory',$req->course_category_id)->with(['deleteSucc'=>'Lesson Delete Successful']);
     }

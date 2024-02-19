@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\CourseDetail;
 use Illuminate\Http\Request;
 use App\Models\CourseCategory;
 use Illuminate\Support\Facades\Storage;
@@ -67,12 +69,38 @@ class CourseController extends Controller
     }
 
     public function delete_admin($id){
-        $dbimage=Course::where('id',$id)->first()->image;
+        $lesson=Lesson::where('course_id',$id)->get();
+        if (count($lesson)==0) {
+
+            $courseDetail=CourseDetail::where('course_id',$id)->get();
+            foreach ($courseDetail as $item) {
+                if($item->image25!=null){
+                    Storage::delete('public/transationImage/'.$item->image25);
+                }
+                if($item->image50!=null){
+                    Storage::delete('public/transationImage/'.$item->image50);
+                }
+                if($item->image75!=null){
+                    Storage::delete('public/transationImage/'.$item->image75);
+                }
+                if($item->image100!=null){
+                    Storage::delete('public/transationImage/'.$item->image100);
+                }
+            }
+            CourseDetail::where('course_id',$id)->delete();
+            CourseCategory::where('course_id',$id)->delete();
+            $dbimage=Course::where('id',$id)->first()->image;
             if ($dbimage!=null) {
                 Storage::delete('public/courseImage/'.$dbimage);
             }
-        Course::where('id',$id)->delete();
-        return redirect()->route('admin#courseList')->with(['deleteSucc'=>'Course delete successful.']);
+            Course::where('id',$id)->delete();
+
+            return redirect()->route('admin#courseList')->with(['deleteSucc'=>'Course delete successful.']);
+        }else{
+            return redirect()->route('admin#viewCourse',$id)->with(['deleteFail'=>'Lesson is not empty in this course. Please delete or move first.']);
+
+        }
+
     }
 
     public function getCourse_ajax(){
