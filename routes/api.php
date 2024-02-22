@@ -31,6 +31,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::prefix('user')->group(function () {
         Route::get('data',[UserController::class,'getUserData']);
+        Route::post('update',[UserController::class,'updateUser']);
+        Route::get('delete/profile',[UserController::class,'deleteProfile']);
+        Route::post('delete/account',[UserController::class,'deleteAccount']);
+
+        Route::post('change/password',[UserController::class,'changePassword']);
+
 
         Route::prefix('home')->group(function () {
             Route::get('course',[CourseController::class,'getHomeCourse_user']);
