@@ -36,7 +36,7 @@
                         </div>
                         <div class="py-2">
                             <label for="" class="py-2">Description</label>
-                            <textarea name="description" id="" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror">{{old('description',$course->description)}}</textarea>
+                            <textarea name="description" id="editor" cols="30" rows="10" class="form-control @error('description') is-invalid @enderror">{{old('description',$course->description)}}</textarea>
                             @error('description')
                                 <small class="text-danger">{{$message}}</small>
                             @enderror
@@ -57,4 +57,10 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        CKEDITOR.replace('editor');
+    </script>
 @endsection

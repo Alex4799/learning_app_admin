@@ -59,7 +59,7 @@
                         <div class="card-body">
                           <h5 class="card-title py-2">{{$item->name}}</h5>
                           <button class="btn btn-secondary py-2">Course Fee - {{$item->course_fee}} MMK</button>
-                          <p class="card-text py-2">{{ Str::limit($item->description, 100)}}</p>
+                          <p class="card-text py-2">{!! Str::limit($item->description, 100)!!}</p>
                           <div class="d-flex justify-content-end p-2">
                             <a href="{{route('admin#viewCourse',$item->id)}}" class="btn btn-secondary"><i class="fa-solid fa-eye"></i></a>
                           </div>

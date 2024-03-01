@@ -30,7 +30,7 @@
                                 <a href="#" class="my-2 btn btn-secondary">{{$course->lesson_count}} Lesson Count</a>
                                 <a href="#" class="my-2 btn btn-secondary">{{$course->course_fee}} MMK</a>
                             </div>
-                            <p class="p-3 text-justify">{{$course->description}}</p>
+                            <p class="p-3">{!!$course->description!!}</p>
                             <div class="py-2">
                                 @foreach ($courseCategory as $item)
                                     <div class="py-2">

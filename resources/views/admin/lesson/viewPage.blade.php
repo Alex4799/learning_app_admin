@@ -19,7 +19,7 @@
 
                 <div class="col-md-8 offset-md-2 p-3 border border-black shadow rounded">
                     <h3>{{$lesson->name}}</h3>
-                    <p class="p-3">{{$lesson->description}}</p>
+                    <p class="p-3">{!!$lesson->description!!}</p>
                     @if ($lesson->vd_link != null)
                         <div class="d-flex justify-content-center">
                             <iframe width="560" height="315" src="{{$lesson->vd_link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
