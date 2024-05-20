@@ -12,6 +12,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CourseDetailController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\UserInterfaceController;
 use App\Http\Controllers\CourseCategoryController;
 
@@ -126,7 +127,17 @@ Route::middleware('auth')->group(function () {
         Route::post('update/userInterface',[UserInterfaceController::class,'updateUserInterface'])->name('admin#updateUserInterface');
         Route::get('default/userInterface',[UserInterfaceController::class,'defaultUserInterface'])->name('admin#defaultUserInterface');
 
+        Route::prefix('payment')->group(function () {
+            Route::get('list',[PaymentMethodController::class,'paymentList_admin'])->name('admin#paymentList');
+            Route::get('addPage',[PaymentMethodController::class,'paymentAddPage_admin'])->name('admin#paymentAddPage');
+            Route::post('add',[PaymentMethodController::class,'paymentAdd_admin'])->name('admin#paymentAdd');
+            Route::get('view/{id}',[PaymentMethodController::class,'paymentView_admin'])->name('admin#paymentView');
+            Route::get('edit/{id}',[PaymentMethodController::class,'paymentEdit_admin'])->name('admin#paymentEdit');
+            Route::post('update',[PaymentMethodController::class,'paymentUpdate_admin'])->name('admin#paymentUpdate');
+            Route::get('delete/{id}',[PaymentMethodController::class,'paymentDelete_admin'])->name('admin#paymentDelete');
 
+
+        });
 
 
     });

@@ -8,6 +8,7 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\CourseDetailController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\UserInterfaceController;
 use App\Http\Controllers\CourseCategoryController;
 
@@ -82,6 +83,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('get',[MessageController::class,'getMessage_user']);
             Route::get('view/{id}',[MessageController::class,'viewMessage_user']);
         });
+
+        Route::get('payment/get',[PaymentMethodController::class,'getPayment_user']);
 
 
 
